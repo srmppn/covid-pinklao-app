@@ -5,6 +5,8 @@ import Backgrounds from '../components/common-style/Background';
 import Colors from '../components/common-style/Colors';
 import Fonts from '../components/common-style/Fonts';
 import Cartoon from "../assets/cartoon.png"
+import Passed from "../assets/passed.png"
+import Unpassed from "../assets/unpassed.png"
 
 const feedbackForm = {
     URL: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSe6KFh5sz3RlzxuAOuOEUYzkcgwva6OJjpr-IuBvoifYnFWcQ/formResponse"
@@ -16,25 +18,40 @@ class ResultPage extends Component {
         super();
         this.state = {
           score: -1,
-          show: false
+          hasSendFeedback: false,
+          showSuccess: false,
+          showDuplicate: false
         }
     }
 
     passedComponent = (hasAppointment) => {
-        return <div style={style.resultContainer}>
-            <icon style={style.iconSuccess} className='fas fa-check-circle'/>
-            <div style={style.textResult}>{`ท่านได้รับการตรวจสอบ\n คัดกรอง Covid-19 แล้ว`}</div>
-            <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
-            <div>{`กรุณาแสดงหน้าจอนี้ให้กับเจ้าหน้าที่\n เพื่อเข้ารับบริการของโรงพยาบาล`}</div>
+        return <div>
+            <div style={style.resultPicContainer}>
+              <img style={style.resultPic} src={Passed}/>
+            </div>
+            <div style={{...style.card, ...{backgroundColor: Colors.lightGreen, border: `1px solid ${Colors.darkGreen}`}}}>
+                <div style={style.resultContainer}>
+                  <div style={style.textResult}>{`ท่านได้รับการตรวจสอบ\n คัดกรอง Covid-19 แล้ว`}</div>
+                  <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
+                <div>{`กรุณาแสดงหน้าจอนี้ให้กับเจ้าหน้าที่\n เพื่อเข้ารับบริการของโรงพยาบาล`}</div>
+            </div>
+          </div>
         </div>
     }
 
     nonPassedComponent = (hasAppointment) => {
-        return <div style={style.resultContainer}>
-            <icon style={style.iconDanger} className='exclamation-circle'/>
-            <div style={style.textResult}>ท่านไม่ผ่านการคัดกรอง Covid-19</div>
-            <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
-            <div>{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
+        return <div>
+          <div style={style.resultPicContainer}>
+            <img style={style.resultPic} src={Unpassed}/>
+          </div>
+          <div style={{...style.card, ...{backgroundColor: Colors.lightRed, border: `1px solid ${Colors.darkRed}`}}}>
+            <div style={style.resultContainer}>
+              <icon style={style.iconDanger} className='exclamation-circle'/>
+              <div style={style.textResult}>ท่านไม่ผ่านการคัดกรอง Covid-19</div>
+              <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
+              <div>{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
+            </div>
+          </div>
         </div>
     }
 
@@ -66,13 +83,22 @@ class ResultPage extends Component {
                         )
                 }
             </div>
-            {/* this.sendFeedback(this.state.score) */}
-            <button className="btn btn-primary btn-block" onClick={() => this.setState({show: true})}>ยืนยัน</button>
+            <button className="btn btn-primary btn-block" onClick={() => this.sendFeedback(this.state.score)}>ยืนยัน</button>
         </div>
     }
 
-    modalComponent = () => {
-      return <Modal size="sm" show={this.state.show} onHide={() => this.setState({show: false})} centered>
+    feedBackDuplicateModalComponent = () => {
+      return <Modal size="sm" show={this.state.showDuplicate} onHide={() => this.setState({showDuplicate: false})} centered>
+        <Modal.Body>
+          <div style={style.modalContainer}>
+            <div>ขออภัยท่านได้เคยประเมินความพึงพอใจไปแล้ว</div>
+          </div>
+        </Modal.Body>
+      </Modal>
+    }
+
+    feedbackModalComponent = () => {
+      return <Modal size="sm" show={this.state.showSuccess} onHide={() => this.setState({showSuccess: false})} centered>
         <Modal.Body>
           <div style={style.modalContainer}>
             <img style={style.cartoonPic} src={Cartoon}/>
@@ -83,6 +109,10 @@ class ResultPage extends Component {
     }
 
     sendFeedback = (score) => {
+        if(this.state.hasSendFeedback){
+          this.setState({showDuplicate: true})
+          return
+        }
         const params = {
           "entry.150406700": score
         }
@@ -95,20 +125,17 @@ class ResultPage extends Component {
             body: new URLSearchParams(params).toString()
         })
         .then(r => {
+          this.setState({hasSendFeedback: true})
+          this.setState({showSuccess: true})
         })
         .catch(e => console.log(e))
     }
 
     render() {
         const { state: {passed, hasAppointment} } = this.props.location
-        console.log(passed)
-        const background = {
-          border: `1px (${passed ? Colors.darkGreen: Colors.darkRed})`,
-          backgroundColor: (passed ? Colors.lightGreen: Colors.lightRed)
-        }
         return (
             <div style={style.container}>
-                <div style={{...style.card, ...background}}>
+                <div>
                     {
                         passed ?
                             this.passedComponent(hasAppointment)
@@ -117,7 +144,8 @@ class ResultPage extends Component {
                     }
                 </div>
                 {this.feedbackComponent()}
-                {this.modalComponent()}
+                {this.feedbackModalComponent()}
+                {this.feedBackDuplicateModalComponent()}
             </div>
         );
     }
@@ -131,12 +159,12 @@ const style = {
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      ...Backgrounds.background1
+      ...Backgrounds.backgroundResult
     },
     card: {
       borderWidth: 1,
       width: 300,
-      height: 300,
+      height: 200,
       borderRadius: 3
     },
     resultContainer: {
@@ -192,6 +220,13 @@ const style = {
     cartoonPic: {
       width: 150,
       height: 150
+    },
+    resultPicContainer: {
+      display: "flex",
+      justifyContent: "center"
+    },
+    resultPic: {
+      width: 300
     }
 }
 

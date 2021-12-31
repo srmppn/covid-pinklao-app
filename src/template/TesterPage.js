@@ -68,11 +68,9 @@ class TesterPage extends Component {
         .then(r => {
             this.props.history.push(
                 "/covid-result", 
-                { 
-                    state: { 
-                        passed: passed, 
-                        hasAppointment: hasAppointment
-                    }
+                {
+                  passed: passed, 
+                  hasAppointment: hasAppointment
                 }
             )
         })
@@ -200,12 +198,14 @@ const style = {
     buttonContainer: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "center",
       marginTop: "10px"
     },
     choiceBtn: {
       width: "145px",
-      textAlign: "left"
+      textAlign: "left",
+      marginRight: 5,
+      marginLeft: 5
     },
     iconBtn: {
       with: "30px",
