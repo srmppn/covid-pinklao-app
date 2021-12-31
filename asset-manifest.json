@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/covid-pinklao-app/static/css/main.1d46d439.css",
-    "main.js": "/covid-pinklao-app/static/js/main.6ef88c6f.js",
+    "main.js": "/covid-pinklao-app/static/js/main.2181a44d.js",
     "static/js/787.456d6339.chunk.js": "/covid-pinklao-app/static/js/787.456d6339.chunk.js",
     "static/media/fa-solid-900.svg": "/covid-pinklao-app/static/media/fa-solid-900.7a8b4f130182d19a2d7c.svg",
     "static/media/fa-brands-400.svg": "/covid-pinklao-app/static/media/fa-brands-400.2f517e09eb2ca6650ff5.svg",
@@ -31,11 +31,11 @@
     "static/media/logo.svg": "/covid-pinklao-app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/covid-pinklao-app/index.html",
     "main.1d46d439.css.map": "/covid-pinklao-app/static/css/main.1d46d439.css.map",
-    "main.6ef88c6f.js.map": "/covid-pinklao-app/static/js/main.6ef88c6f.js.map",
+    "main.2181a44d.js.map": "/covid-pinklao-app/static/js/main.2181a44d.js.map",
     "787.456d6339.chunk.js.map": "/covid-pinklao-app/static/js/787.456d6339.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1d46d439.css",
-    "static/js/main.6ef88c6f.js"
+    "static/js/main.2181a44d.js"
   ]
 }
