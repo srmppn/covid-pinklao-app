@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "/covid-pinklao-app/static/css/main.1d46d439.css",
+    "main.js": "/covid-pinklao-app/static/js/main.6ef88c6f.js",
+    "static/js/787.456d6339.chunk.js": "/covid-pinklao-app/static/js/787.456d6339.chunk.js",
+    "static/media/fa-solid-900.svg": "/covid-pinklao-app/static/media/fa-solid-900.7a8b4f130182d19a2d7c.svg",
+    "static/media/fa-brands-400.svg": "/covid-pinklao-app/static/media/fa-brands-400.2f517e09eb2ca6650ff5.svg",
+    "static/media/correct.png": "/covid-pinklao-app/static/media/correct.79c5c46cee7560cefce8.png",
+    "static/media/wrong.png": "/covid-pinklao-app/static/media/wrong.7cb9437b4712a2dd6563.png",
+    "static/media/cartoon.png": "/covid-pinklao-app/static/media/cartoon.9b9e330e27285db98915.png",
+    "static/media/passed.png": "/covid-pinklao-app/static/media/passed.f2e51d7afe2e4c6f2518.png",
+    "static/media/unpassed.png": "/covid-pinklao-app/static/media/unpassed.6edb70d6dfc3f5a5867b.png",
+    "static/media/logo.png": "/covid-pinklao-app/static/media/logo.69ffeaa698a536c00fbd.png",
+    "static/media/background3.png": "/covid-pinklao-app/static/media/background3.497840d8649297c1e26b.png",
+    "static/media/fa-solid-900.eot": "/covid-pinklao-app/static/media/fa-solid-900.9bbb245e67a133f6e486.eot",
+    "static/media/fa-solid-900.ttf": "/covid-pinklao-app/static/media/fa-solid-900.be9ee23c0c6390141475.ttf",
+    "static/media/background4.png": "/covid-pinklao-app/static/media/background4.5364616aa76d6988565c.png",
+    "static/media/background2.png": "/covid-pinklao-app/static/media/background2.ac56862ce405b8f94fc7.png",
+    "static/media/background1.png": "/covid-pinklao-app/static/media/background1.b93a99272ec1bf534e88.png",
+    "static/media/fa-regular-400.svg": "/covid-pinklao-app/static/media/fa-regular-400.4689f52cc96215721344.svg",
+    "static/media/fa-brands-400.eot": "/covid-pinklao-app/static/media/fa-brands-400.23f19bb08961f37aaf69.eot",
+    "static/media/fa-brands-400.ttf": "/covid-pinklao-app/static/media/fa-brands-400.527940b104eb2ea366c8.ttf",
+    "static/media/fa-solid-900.woff": "/covid-pinklao-app/static/media/fa-solid-900.eeccf4f66002c6f2ba24.woff",
+    "static/media/fa-brands-400.woff": "/covid-pinklao-app/static/media/fa-brands-400.2285773e6b4b172f07d9.woff",
+    "static/media/fa-solid-900.woff2": "/covid-pinklao-app/static/media/fa-solid-900.1551f4f60c37af51121f.woff2",
+    "static/media/fa-brands-400.woff2": "/covid-pinklao-app/static/media/fa-brands-400.d878b0a6a1144760244f.woff2",
+    "static/media/fa-regular-400.eot": "/covid-pinklao-app/static/media/fa-regular-400.77206a6bb316fa0aded5.eot",
+    "static/media/fa-regular-400.ttf": "/covid-pinklao-app/static/media/fa-regular-400.491974d108fe4002b2aa.ttf",
+    "static/media/fa-regular-400.woff": "/covid-pinklao-app/static/media/fa-regular-400.bb58e57c48a3e911f15f.woff",
+    "static/media/fa-regular-400.woff2": "/covid-pinklao-app/static/media/fa-regular-400.7a3337626410ca2f4071.woff2",
+    "static/media/logo.svg": "/covid-pinklao-app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/covid-pinklao-app/index.html",
+    "main.1d46d439.css.map": "/covid-pinklao-app/static/css/main.1d46d439.css.map",
+    "main.6ef88c6f.js.map": "/covid-pinklao-app/static/js/main.6ef88c6f.js.map",
+    "787.456d6339.chunk.js.map": "/covid-pinklao-app/static/js/787.456d6339.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1d46d439.css",
+    "static/js/main.6ef88c6f.js"
+  ]
+}
