@@ -8,7 +8,7 @@ import HomePage from "../template/HomePage";
 
 const router = () => (
   <div style={style.background}>
-    <Router>
+    <Router basename="/covid-pinklao-app">
       <Route exact path="/" component={HomePage} />
       <Route exact path="/user-info" component={UserPage} />
       <Route exact path="/covid-test" component={TesterPage} />
