@@ -57,11 +57,11 @@ class ResultPage extends Component {
 
     feedbackComponent = () => {
         const feedbackChoices = [
-            {name: "fas fa-frown-open", color: Colors.customRed, score: 0},
-            {name: "fas fa-frown", color: Colors.customOrange, score: 1},
-            {name: "fas fa-meh", color: Colors.customYellow,score: 2},
-            {name: "fas fa-smile", color: Colors.customGreen, score: 3},
-            {name: "fas fa-smile-wink", color: Colors.customDarkGreen, score: 4}
+            {name: "fas fa-frown-open", color: Colors.customRed, score: 1},
+            {name: "fas fa-frown", color: Colors.customOrange, score: 2},
+            {name: "fas fa-meh", color: Colors.customYellow,score: 3},
+            {name: "fas fa-smile", color: Colors.customGreen, score: 4},
+            {name: "fas fa-smile-wink", color: Colors.customDarkGreen, score: 5}
         ]
         const selectedStyle = {
             ...style.feedBackIcon,
@@ -120,7 +120,7 @@ class ResultPage extends Component {
     }
 
     sendFeedback = (score) => {
-        if(this.state.score < 0){
+        if(this.state.score <= 0){
           this.setState({showUnselected: true})
           return
         }
