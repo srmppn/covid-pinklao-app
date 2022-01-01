@@ -19,6 +19,7 @@ class ResultPage extends Component {
         this.state = {
           score: -1,
           hasSendFeedback: false,
+          showUnselected: false,
           showSuccess: false,
           showDuplicate: false
         }
@@ -46,7 +47,6 @@ class ResultPage extends Component {
           </div>
           <div style={{...style.card, ...{backgroundColor: Colors.lightRed, border: `1px solid ${Colors.darkRed}`}}}>
             <div style={style.resultContainer}>
-              <icon style={style.iconDanger} className='exclamation-circle'/>
               <div style={style.textResult}>ท่านไม่ผ่านการคัดกรอง Covid-19</div>
               <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
               <div>{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
@@ -72,9 +72,10 @@ class ResultPage extends Component {
             <div style={style.feedbackIconContainer}>
                 {
                     feedbackChoices
-                        .map(({name, color, score}) =>
+                        .map(({name, color, score}, index) =>
                             {
-                                return <icon
+                                return <i
+                                    key={index}
                                     style={{color: color, ...(score == this.state.score ? selectedStyle : style.feedBackIcon)}} 
                                     className={name} 
                                     onClick={() => this.setState({score: score})}
@@ -87,6 +88,16 @@ class ResultPage extends Component {
         </div>
     }
 
+    feedBackUnselectedComponent = () => {
+      return <Modal size="sm" show={this.state.showUnselected} onHide={() => this.setState({showUnselected: false})} centered>
+        <Modal.Body>
+          <div style={style.modalContainer}>
+            <div>กรุณาระบุระดับความพึงพอใจ</div>
+          </div>
+        </Modal.Body>
+      </Modal>
+    }
+
     feedBackDuplicateModalComponent = () => {
       return <Modal size="sm" show={this.state.showDuplicate} onHide={() => this.setState({showDuplicate: false})} centered>
         <Modal.Body>
@@ -97,7 +108,7 @@ class ResultPage extends Component {
       </Modal>
     }
 
-    feedbackModalComponent = () => {
+    feedbackSuccessModalComponent = () => {
       return <Modal size="sm" show={this.state.showSuccess} onHide={() => this.setState({showSuccess: false})} centered>
         <Modal.Body>
           <div style={style.modalContainer}>
@@ -109,6 +120,10 @@ class ResultPage extends Component {
     }
 
     sendFeedback = (score) => {
+        if(this.state.score < 0){
+          this.setState({showUnselected: true})
+          return
+        }
         if(this.state.hasSendFeedback){
           this.setState({showDuplicate: true})
           return
@@ -144,7 +159,8 @@ class ResultPage extends Component {
                     }
                 </div>
                 {this.feedbackComponent()}
-                {this.feedbackModalComponent()}
+                {this.feedBackUnselectedComponent()}
+                {this.feedbackSuccessModalComponent()}
                 {this.feedBackDuplicateModalComponent()}
             </div>
         );
@@ -159,7 +175,7 @@ const style = {
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      ...Backgrounds.backgroundResult
+      ...Backgrounds.background3
     },
     card: {
       borderWidth: 1,

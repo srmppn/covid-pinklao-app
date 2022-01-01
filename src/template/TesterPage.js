@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import React, { Component } from 'react';
 import Colors from '../components/common-style/Colors';
 import Logo from "../assets/logo.png";
@@ -8,6 +8,8 @@ import Backgrounds from '../components/common-style/Background';
 import Fonts from '../components/common-style/Fonts';
 import correct from "../assets/correct.png"
 import wrong from "../assets/wrong.png"
+import UserType from './UserType';
+import { TesterSchema } from '../validation/TesterSchema';
 
 const covidTestForm = {
     URL: "https://docs.google.com/forms/u/0/d/e/1FAIpQLScJRlNftFZhJb8qptgvgJwSnNBD-hdCE49DBPI0bW11bMT0sw/formResponse"
@@ -31,10 +33,16 @@ class TesterPage extends Component {
         }
     }
 
+    componentDidMount = () => {
+      const { state } = this.props.location
+      if(!state){
+        this.props.history.push("/")
+      }
+    }
+
     diagnoseResult = (state) => {
         const answers = Object.keys(state)
         const hasAppointment = state[answers.pop()]
-        console.log(answers, hasAppointment)
         return { passed: answers.every(key => state[key] === "no"), hasAppointment: hasAppointment === "yes" };
     }
 
@@ -44,9 +52,7 @@ class TesterPage extends Component {
     }
 
     submitHandler = (values) => {
-        console.log(this.props)
         const { state } = this.props.location
-        console.log(values)
         const { passed, hasAppointment } = this.diagnoseResult(values)
         const params = {
           "entry.1944288684": state.prefix,
@@ -56,25 +62,37 @@ class TesterPage extends Component {
           "entry.1265149401": state.branch,
           "entry.1618681556": (passed ? "ผ่าน": "ไม่ผ่าน")
         }
-        console.log("has passed? ", passed)
-        fetch(covidTestForm.URL, {
+
+        if(state.userType == UserType.GUESS){
+          fetch(covidTestForm.URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams(params).toString()
-        })
-        .then(r => {
-            this.props.history.push(
-                "/covid-result", 
-                {
-                  passed: passed, 
-                  hasAppointment: hasAppointment
-                }
-            )
-        })
-        .catch(e => console.log(e))
+          })
+          .then(r => {
+              this.props.history.push(
+                  "/covid-result", 
+                  {
+                    passed: passed, 
+                    hasAppointment: hasAppointment
+                  }
+              )
+          })
+          .catch(e => console.log(e));
+        }
+        else {
+          console.log("staff")
+          this.props.history.push(
+            "/covid-result", 
+            {
+              passed: passed, 
+              hasAppointment: hasAppointment
+            }
+          )
+        }
     }
 
     setStateResult = (index, result) => {
@@ -115,6 +133,7 @@ class TesterPage extends Component {
                 </div>
                 <Formik 
                     initialValues={this.convertJson()}
+                    validationSchema={TesterSchema}
                     enableReinitialize={true}
                     onSubmit={this.submitHandler}>
                     {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => 
@@ -124,26 +143,33 @@ class TesterPage extends Component {
                                     .map(({question, result}, index) =>
                                         <div style={style.questionContainer} key={index}>
                                           <div>{`${index+1}. ${question}`}</div>
-                                          <div style={style.buttonContainer}>
-                                              <button style={style.choiceBtn} className={this.setSelectedButtonClass(result, 1)} onClick={() => {
-                                                this.setStateResult(index, 1)
-                                                setFieldValue(`covid-test-${index+1}`, "yes")
-                                              }}>
-                                                <img style={style.iconBtn} src={correct}/>
-                                                <span>ใช่</span>
-                                              </button>
-                                              <button style={style.choiceBtn} className={this.setSelectedButtonClass(result, 2)} onClick={() => {
-                                                this.setStateResult(index, 2)
-                                                setFieldValue(`covid-test-${index+1}`, "no")
-                                              }}>
-                                                <img style={style.iconBtn} src={wrong}/>
-                                                <span>ไม่ใช่</span>
-                                              </button>
-                                              {/* <FormikRadio name={`covid-test-${index+1}`} choices={this.state.choices} handleChange={handleChange}/> */}
-                                          </div>
-                                        </div>
-                                )
-                            }
+                                          <Field name={`covid-test-${index+1}`}>
+                                            {({ field, form: { touched, errors }, meta }) =>
+                                              (
+                                                <div>
+                                                  <div style={style.buttonContainer}>
+                                                    <button style={style.choiceBtn} className={this.setSelectedButtonClass(result, 1)} onClick={() => {
+                                                      this.setStateResult(index, 1)
+                                                      setFieldValue(`covid-test-${index+1}`, "yes")
+                                                    }}>
+                                                      <img style={style.iconBtn} src={correct}/>
+                                                      <span>ใช่</span>
+                                                    </button>
+                                                    <button type="submit" style={style.choiceBtn} className={this.setSelectedButtonClass(result, 2)} onClick={() => {
+                                                      this.setStateResult(index, 2)
+                                                      setFieldValue(`covid-test-${index+1}`, "no")
+                                                    }}>
+                                                      <img style={style.iconBtn} src={wrong}/>
+                                                      <span>ไม่ใช่</span>
+                                                    </button>
+                                                  </div>
+                                                  {meta.touched && meta.error && <small className="text-danger">{meta.error}</small>}
+                                                </div>
+                                              )}
+                                          </Field>
+                                      </div>
+                                  )
+                              }
                             <div style={style.submitContainer}>
                               <div className="mb-2">** โปรดตรวจสอบข้อมูลให้ถูกต้องก่อนกดยืนยัน **</div>
                               <button className="btn btn-primary btn-block mb-3" onClick={handleSubmit}>ยืนยัน</button>
@@ -161,7 +187,7 @@ const style = {
       flex: 1,
       padding: 20,
       backgroundColor: '#fff',
-      ...Backgrounds.background1
+      ...Backgrounds.background2
     },
     headerContainer: {
       flex: 1,

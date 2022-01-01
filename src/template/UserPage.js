@@ -6,6 +6,7 @@ import Logo from "../assets/logo.png";
 import { Formik } from 'formik';
 import { withRouter } from 'react-router';
 import Backgrounds from '../components/common-style/Background';
+import { UserSchema } from '../validation/UserSchema';
 
 class UserPage extends Component {
 
@@ -18,6 +19,10 @@ class UserPage extends Component {
             { label: "หน่วยที่ 2", value: "branch2" }
           ]
         }
+    }
+
+    submitHandler = (values) => {
+      this.props.history.push("/covid-test", values)
     }
 
     render() {
@@ -33,6 +38,7 @@ class UserPage extends Component {
             <div style={styles.form}>
                 <Formik 
                   initialValues={{prefix: "", firstname: "", lastname: "", phone: "", branch: ""}}
+                  validationSchema={UserSchema}
                   onSubmit={this.submitHandler}>
                     {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
                     <div className="form-group">
@@ -41,7 +47,7 @@ class UserPage extends Component {
                         <FormikField name="lastname" placeholder="นามสกุล" handleChange={handleChange} handleBlur={handleBlur}/>
                         <FormikField name="phone" placeholder="เบอร์โทรศัพท์" handleChange={handleChange} handleBlur={handleBlur}/>
                         <FormikSelect name="branch" options={this.state.branchOptions} setFieldValue={setFieldValue} />
-                        <button className="btn btn-primary btn-block" onClick={() => this.props.history.push("/covid-test", values)} style={styles.button}>ดำเนินการต่อ</button>
+                        <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit} style={styles.button}>ดำเนินการต่อ</button>
                     </div>
                     )}
                 </Formik>

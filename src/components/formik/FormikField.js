@@ -20,6 +20,7 @@ class FormikField extends React.Component {
                 onBlur={field.onBlur}
                 placeholder={placeholder}
                 value={field.value} />
+              {meta.touched && meta.error && <small className="text-danger">{meta.error}</small>}
             </div>)}
         </Field>
       </div>

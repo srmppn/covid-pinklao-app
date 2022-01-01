@@ -6,29 +6,26 @@ import Logo from "../assets/logo.png";
 import { withRouter } from 'react-router';
 import Fonts from '../components/common-style/Fonts';
 import Backgrounds from '../components/common-style/Background';
+import UserType from './UserType';
 
-const userType = {
-    GUESS: "guess",
-    STAFF: "staff"
-}
 
 class HomePage extends Component {
     constructor(){
         super();
         this.state = {
             choices: [
-                {label: "บุคลากรในรพ.สมเด็จพระปิ่นเกล้า", value: userType.STAFF},
-                {label: "ผู้รับบริการ", value: userType.GUESS}
+                {label: "บุคลากรในรพ.สมเด็จพระปิ่นเกล้า", value: UserType.STAFF},
+                {label: "ผู้รับบริการ", value: UserType.GUESS}
             ]
         }
     }
 
     submitHandler = (values) => {
         switch(values.userType){
-            case userType.GUESS:
+            case UserType.GUESS:
                 this.props.history.push("/user-info", values)
                 break;
-            case userType.STAFF:
+            case UserType.STAFF:
                 this.props.history.push("/covid-test", values)
                 break;
             default:
