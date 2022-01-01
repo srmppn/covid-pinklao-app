@@ -63,7 +63,17 @@ class TesterPage extends Component {
           "entry.1618681556": (passed ? "ผ่าน": "ไม่ผ่าน")
         }
 
-        if(state.userType == UserType.GUESS){
+        if(state.userType == UserType.STAFF){
+          console.log("staff")
+          this.props.history.push(
+            "/covid-result", 
+            {
+              passed: passed, 
+              hasAppointment: hasAppointment
+            }
+          )
+        }
+        else {
           fetch(covidTestForm.URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -82,16 +92,6 @@ class TesterPage extends Component {
               )
           })
           .catch(e => console.log(e));
-        }
-        else {
-          console.log("staff")
-          this.props.history.push(
-            "/covid-result", 
-            {
-              passed: passed, 
-              hasAppointment: hasAppointment
-            }
-          )
         }
     }
 
