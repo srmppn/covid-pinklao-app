@@ -6,18 +6,19 @@ const Backgrounds = {
   background1: {
     backgroundImage: `url(${background1})`,
     backgroundSize: "cover",
-    height: "100%",
     height: "100vh",
-    minHeight: "100%"
   },
   background2: {
     backgroundImage: `url(${background2})`,
     backgroundSize: "auto 100%",
-    height: "100vh"
+    backgroundPosition: "center center",
+    height: "100vh",
+    height: "100%"
   },
   background3: {
     backgroundImage: `url(${background3})`,
     backgroundSize: "auto 100%",
+    backgroundPosition: "center center",
     height: "100vh"
   }
 }
