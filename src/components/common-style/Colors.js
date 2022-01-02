@@ -1,6 +1,7 @@
 const Colors = {
     hospitalGreen: "#037b11",
     success: "#28a745",
+    primary: "#007bff",
     secondary: "#6c757d",
     lightGray: "#f2f2f2",
     lightGreen: "#e4f9d7",

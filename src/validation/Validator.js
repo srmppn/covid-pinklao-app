@@ -6,6 +6,7 @@ export const validator = {
     strOnly: yup.string()
         .required('กรุณากรอกข้อมูล'),
     phone: yup.string()
+        .required('กรุณากรอกข้อมูล')
         .matches(phoneRegExp, 'เบอร์โทรศัพท์ไม่ถูกต้อง')
 }
 

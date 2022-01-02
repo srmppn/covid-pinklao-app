@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import Backgrounds from '../components/common-style/Background';
 import Colors from '../components/common-style/Colors';
@@ -21,35 +21,47 @@ class ResultPage extends Component {
           hasSendFeedback: false,
           showUnselected: false,
           showSuccess: false,
-          showDuplicate: false
+          showDuplicate: false,
+          showConfirmRedirect: false
         }
     }
 
-    passedComponent = (hasAppointment) => {
+    componentDidMount = () => {
+      const { state } = this.props.location
+      if(!state){
+        this.props.history.push("/")
+      }
+    }
+
+    passedComponent = (fullname, hasAppointment) => {
         return <div>
             <div style={style.resultPicContainer}>
               <img style={style.resultPic} src={Passed}/>
             </div>
             <div style={{...style.card, ...{backgroundColor: Colors.lightGreen, border: `1px solid ${Colors.darkGreen}`}}}>
                 <div style={style.resultContainer}>
+                  <div style={style.textFullname}>{fullname}</div>
                   <div style={style.textResult}>{`ท่านได้รับการตรวจสอบ\n คัดกรอง Covid-19 แล้ว`}</div>
                   <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
                 <div>{`กรุณาแสดงหน้าจอนี้ให้กับเจ้าหน้าที่\n เพื่อเข้ารับบริการของโรงพยาบาล`}</div>
+                <div style={style.textRedirect} onClick={() => this.setState({showConfirmRedirect: true})}>ทำแบบทดสอบอีกครั้ง</div>
             </div>
           </div>
         </div>
     }
 
-    nonPassedComponent = (hasAppointment) => {
+    nonPassedComponent = (fullname, hasAppointment) => {
         return <div>
           <div style={style.resultPicContainer}>
             <img style={style.resultPic} src={Unpassed}/>
           </div>
           <div style={{...style.card, ...{backgroundColor: Colors.lightRed, border: `1px solid ${Colors.darkRed}`}}}>
             <div style={style.resultContainer}>
+              <div style={style.textFullname}>{fullname}</div>
               <div style={style.textResult}>ท่านไม่ผ่านการคัดกรอง Covid-19</div>
               <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
               <div>{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
+              <div style={style.textRedirect} onClick={() => this.setState({showConfirmRedirect: true})}>ทำแบบทดสอบอีกครั้ง</div>
             </div>
           </div>
         </div>
@@ -119,6 +131,20 @@ class ResultPage extends Component {
       </Modal>
     }
 
+    redirectModalComponent = () => {
+      return <Modal size="sm" show={this.state.showConfirmRedirect} onHide={() => this.setState({showConfirmRedirect: false})} centered>
+        <Modal.Body>
+          <div style={style.modalContainer}>
+            <div>ท่านต้องการทำแบบทดสอบประเมินความเสี่ยง Covid-19 อีกครั้งใช่หรือไม่ ?</div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-primary" onClick={() =>this.props.history.push("/")}>ใช่</button>
+          <button className="btn btn-outline-danger" onClick={() => this.setState({showConfirmRedirect: false})}>ไม่ใช่</button>
+        </Modal.Footer>
+      </Modal>
+    }
+
     sendFeedback = (score) => {
         if(this.state.score <= 0){
           this.setState({showUnselected: true})
@@ -147,21 +173,22 @@ class ResultPage extends Component {
     }
 
     render() {
-        const { state: {passed, hasAppointment} } = this.props.location
+        const { state: {passed, fullname, hasAppointment} } = this.props.location
         return (
             <div style={style.container}>
                 <div>
                     {
                         passed ?
-                            this.passedComponent(hasAppointment)
+                            this.passedComponent(fullname, hasAppointment)
                             :
-                            this.nonPassedComponent(hasAppointment)
+                            this.nonPassedComponent(fullname, hasAppointment)
                     }
                 </div>
                 {this.feedbackComponent()}
                 {this.feedBackUnselectedComponent()}
                 {this.feedbackSuccessModalComponent()}
                 {this.feedBackDuplicateModalComponent()}
+                {this.redirectModalComponent()}
             </div>
         );
     }
@@ -180,7 +207,7 @@ const style = {
     card: {
       borderWidth: 1,
       width: 300,
-      height: 200,
+      height: 240,
       borderRadius: 3
     },
     resultContainer: {
@@ -191,11 +218,22 @@ const style = {
       textAlign: "center",
       padding: 20
     },
+    textFullname: {
+      fontSize: 18,
+      fontWeight: "bold"
+    },
     textResult: {
       fontSize: 16,
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: 3,
+      marginBottom: 3,
       fontWeight: "bold",
+    },
+    textRedirect: {
+      marginTop: 5,
+      fontSize: 18,
+      color: Colors.primary,
+      textDecoration: "underline",
+      cursor: "pointer"
     },
     iconSuccess: {
       fontSize: 60,

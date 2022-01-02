@@ -68,6 +68,7 @@ class TesterPage extends Component {
           this.props.history.push(
             "/covid-result", 
             {
+              fullname: `${state.prefix} ${state.firstname} ${state.lastname}`,
               passed: passed, 
               hasAppointment: hasAppointment
             }
@@ -86,6 +87,7 @@ class TesterPage extends Component {
               this.props.history.push(
                   "/covid-result", 
                   {
+                    fullname: `${state.prefix} ${state.firstname} ${state.lastname}`,
                     passed: passed, 
                     hasAppointment: hasAppointment
                   }
@@ -97,14 +99,9 @@ class TesterPage extends Component {
 
     setStateResult = (index, result) => {
       this.setState(prev => {
-        let nextQuestion = prev.questions.map(
-            (q, idx) => {
-              if (index==idx)
-                return {question: q.question, result: result}
-              else 
-                return q
-            }
-          )
+          let nextQuestion = prev.questions
+            .map((q, idx) => 
+              (index==idx ? { question: q.question, result: result } : q))
           return {
             questions: [...nextQuestion]
           }
