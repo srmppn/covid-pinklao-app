@@ -42,10 +42,10 @@ class ResultPage extends Component {
             <div style={{...style.card, ...{backgroundColor: Colors.lightGreen, border: `1px solid ${Colors.darkGreen}`}}}>
                 <div style={style.resultTextContainer}>
                   <div style={style.textFullname}>{fullname}</div>
-                  <div style={style.textResult}>{`ท่านได้รับการตรวจสอบ\n คัดกรอง Covid-19 แล้ว`}</div>
-                  <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
-                  <div style={style.textResult}>{datetime}</div>
-                <div>{`กรุณาแสดงหน้าจอนี้ให้กับเจ้าหน้าที่\n เพื่อเข้ารับบริการของโรงพยาบาล`}</div>
+                  <div style={style.textResult}>{`ท่านได้รับการคัดกรอง Covid-19 แล้ว`}</div>
+                  <div style={style.textDate}>{datetime}</div>
+                  <div style={style.textAppointment}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
+                <div className="text-danger">{`กรุณาแสดงหน้าจอนี้ให้กับเจ้าหน้าที่\n เพื่อเข้ารับบริการของโรงพยาบาล`}</div>
             </div>
           </div>
         </div>
@@ -60,9 +60,9 @@ class ResultPage extends Component {
             <div style={style.resultTextContainer}>
               <div style={style.textFullname}>{fullname}</div>
               <div style={style.textResult}>ท่านไม่ผ่านการคัดกรอง Covid-19</div>
-              <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
-              <div style={style.textResult}>{datetime}</div>
-              <div>{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
+              <div style={style.textDate}>{datetime}</div>
+              <div style={style.textAppointment}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
+              <div className="text-danger">{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
             </div>
           </div>
         </div>
@@ -186,7 +186,7 @@ class ResultPage extends Component {
                     }
                 </div>
                 <div className="bg-light" style={style.redirectContainer}>
-                  <div>หากท่านต้องการทำแบบทดสอบมากกว่า 1 ท่าน กรุณาแคปหน้าจอนี้ไว้เป็นหลักฐาน</div>
+                  <div>หากต้องการทำแบบทดสอบมากกว่า 1 ท่าน กรุณาแคปหน้าจอนี้ไว้เป็นหลักฐาน</div>
                   <div style={style.textRedirect} onClick={() => this.setState({showConfirmRedirect: true})}>ทำแบบทดสอบอีกครั้ง</div>
                 </div>
                 {this.feedbackComponent()}
@@ -230,10 +230,19 @@ const style = {
       fontWeight: "bold"
     },
     textResult: {
+      fontSize: 20,
+      fontWeight: "bold"
+    },
+    textDate: {
       fontSize: 16,
       marginTop: 3,
       marginBottom: 3,
       fontWeight: "bold",
+    },
+    textAppointment: {
+      fontSize: 16,
+      marginTop: 3,
+      marginBottom: 3
     },
     redirectContainer: {
       display: "flex",
