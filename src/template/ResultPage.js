@@ -7,6 +7,7 @@ import Fonts from '../components/common-style/Fonts';
 import Cartoon from "../assets/cartoon.png"
 import Passed from "../assets/passed.png"
 import Unpassed from "../assets/unpassed.png"
+import { date } from 'yup';
 
 const feedbackForm = {
     URL: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSe6KFh5sz3RlzxuAOuOEUYzkcgwva6OJjpr-IuBvoifYnFWcQ/formResponse"
@@ -33,35 +34,35 @@ class ResultPage extends Component {
       }
     }
 
-    passedComponent = (fullname, hasAppointment) => {
-        return <div>
+    passedComponent = (fullname, hasAppointment, datetime) => {
+        return <div style={style.resultContainer}>
             <div style={style.resultPicContainer}>
               <img style={style.resultPic} src={Passed}/>
             </div>
             <div style={{...style.card, ...{backgroundColor: Colors.lightGreen, border: `1px solid ${Colors.darkGreen}`}}}>
-                <div style={style.resultContainer}>
+                <div style={style.resultTextContainer}>
                   <div style={style.textFullname}>{fullname}</div>
                   <div style={style.textResult}>{`ท่านได้รับการตรวจสอบ\n คัดกรอง Covid-19 แล้ว`}</div>
                   <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
+                  <div style={style.textResult}>{datetime}</div>
                 <div>{`กรุณาแสดงหน้าจอนี้ให้กับเจ้าหน้าที่\n เพื่อเข้ารับบริการของโรงพยาบาล`}</div>
-                <div style={style.textRedirect} onClick={() => this.setState({showConfirmRedirect: true})}>ทำแบบทดสอบอีกครั้ง</div>
             </div>
           </div>
         </div>
     }
 
-    nonPassedComponent = (fullname, hasAppointment) => {
-        return <div>
+    nonPassedComponent = (fullname, hasAppointment, datetime) => {
+        return <div style={style.resultContainer}>
           <div style={style.resultPicContainer}>
             <img style={style.resultPic} src={Unpassed}/>
           </div>
           <div style={{...style.card, ...{backgroundColor: Colors.lightRed, border: `1px solid ${Colors.darkRed}`}}}>
-            <div style={style.resultContainer}>
+            <div style={style.resultTextContainer}>
               <div style={style.textFullname}>{fullname}</div>
               <div style={style.textResult}>ท่านไม่ผ่านการคัดกรอง Covid-19</div>
               <div style={style.textResult}>{ hasAppointment ? "มีนัดพบแพทย์": "ไม่มีนัดพบแพทย์" }</div>
+              <div style={style.textResult}>{datetime}</div>
               <div>{`** กรุณาติดต่อเจ้าหน้าที่ **`}</div>
-              <div style={style.textRedirect} onClick={() => this.setState({showConfirmRedirect: true})}>ทำแบบทดสอบอีกครั้ง</div>
             </div>
           </div>
         </div>
@@ -173,16 +174,20 @@ class ResultPage extends Component {
     }
 
     render() {
-        const { state: {passed, fullname, hasAppointment} } = this.props.location
+        const { state: {passed, fullname, hasAppointment, datetime} } = this.props.location
         return (
             <div style={style.container}>
                 <div>
                     {
                         passed ?
-                            this.passedComponent(fullname, hasAppointment)
+                            this.passedComponent(fullname, hasAppointment, datetime)
                             :
-                            this.nonPassedComponent(fullname, hasAppointment)
+                            this.nonPassedComponent(fullname, hasAppointment, datetime)
                     }
+                </div>
+                <div className="bg-light" style={style.redirectContainer}>
+                  <div>หากท่านต้องการทำแบบทดสอบมากกว่า 1 ท่าน กรุณาแคปหน้าจอนี้ไว้เป็นหลักฐาน</div>
+                  <div style={style.textRedirect} onClick={() => this.setState({showConfirmRedirect: true})}>ทำแบบทดสอบอีกครั้ง</div>
                 </div>
                 {this.feedbackComponent()}
                 {this.feedBackUnselectedComponent()}
@@ -198,25 +203,27 @@ const style = {
     container: {
       display: "flex",
       flexDirection: "column",
-      padding: 20,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
       ...Backgrounds.background3
     },
-    card: {
-      borderWidth: 1,
-      width: 300,
-      height: 240,
-      borderRadius: 3
-    },
     resultContainer: {
+      paddingTop: 120
+    },
+    resultTextContainer: {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       textAlign: "center",
-      padding: 20
+      padding: 20,
+    },
+    card: {
+      borderWidth: 1,
+      width: 300,
+      height: "fit-content",
+      borderRadius: 3
     },
     textFullname: {
       fontSize: 18,
@@ -228,28 +235,32 @@ const style = {
       marginBottom: 3,
       fontWeight: "bold",
     },
+    redirectContainer: {
+      display: "flex",
+      textAlign: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      border: "1px solid",
+      borderRadius: 3,
+      width: 300,
+      margin: 10,
+      padding: 10
+    },
     textRedirect: {
       marginTop: 5,
-      fontSize: 18,
+      fontSize: 16,
       color: Colors.primary,
       textDecoration: "underline",
       cursor: "pointer"
     },
-    iconSuccess: {
-      fontSize: 60,
-      color: Colors.success
-    },
-    iconDanger: {
-      fontSize: 60,
-      color: Colors.warning
-    },   
     feedbackContainer: {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       textAlign: "center",
-      marginTop: 30,
+      marginTop: 10,
+      paddingBottom: 30,
       width: 300
     },
     feedbackIconContainer: {

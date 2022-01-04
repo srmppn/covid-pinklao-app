@@ -12,13 +12,7 @@ class UserPage extends Component {
 
     constructor(){
         super()
-        this.state = {
-            branchOptions: [
-            { label: "-- เลือกหน่วยบริการ --", value: "default" },
-            { label: "หน่วยที่ 1", value: "branch1" },
-            { label: "หน่วยที่ 2", value: "branch2" }
-          ]
-        }
+        this.state = {}
     }
 
     submitHandler = (values) => {
@@ -40,13 +34,12 @@ class UserPage extends Component {
                   initialValues={{prefix: "", firstname: "", lastname: "", phone: "", branch: ""}}
                   validationSchema={UserSchema}
                   onSubmit={this.submitHandler}>
-                    {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
+                    {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <div className="form-group">
                         <FormikField name="prefix" placeholder="คำนำหน้า" handleChange={handleChange} handleBlur={handleBlur}/>
                         <FormikField name="firstname" placeholder="ชื่อจริง" handleChange={handleChange} handleBlur={handleBlur}/>
                         <FormikField name="lastname" placeholder="นามสกุล" handleChange={handleChange} handleBlur={handleBlur}/>
                         <FormikField name="phone" placeholder="เบอร์โทรศัพท์" handleChange={handleChange} handleBlur={handleBlur}/>
-                        <FormikSelect name="branch" options={this.state.branchOptions} setFieldValue={setFieldValue} />
                         <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit} style={styles.button}>ดำเนินการต่อ</button>
                     </div>
                     )}

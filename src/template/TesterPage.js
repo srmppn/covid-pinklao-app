@@ -10,6 +10,7 @@ import correct from "../assets/correct.png"
 import wrong from "../assets/wrong.png"
 import UserType from './UserType';
 import { TesterSchema } from '../validation/TesterSchema';
+import { date } from 'yup';
 
 const covidTestForm = {
     URL: "https://docs.google.com/forms/u/0/d/e/1FAIpQLScJRlNftFZhJb8qptgvgJwSnNBD-hdCE49DBPI0bW11bMT0sw/formResponse"
@@ -46,6 +47,14 @@ class TesterPage extends Component {
         return { passed: answers.every(key => state[key] === "no"), hasAppointment: hasAppointment === "yes" };
     }
 
+    getCurrentDate = () => {
+      return new Date().toLocaleDateString('th-TH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    }
+
     convertJson = () => {
         return this.state.questions.map((_, index) => `covid-test-${index+1}`)
             .reduce((prev, curr) => { prev[curr] = ""; return prev}, {})
@@ -59,18 +68,17 @@ class TesterPage extends Component {
           "entry.38573224": state.firstname,
           "entry.1843805990": state.lastname,
           "entry.120237875": state.phone,
-          "entry.1265149401": state.branch,
           "entry.1618681556": (passed ? "ผ่าน": "ไม่ผ่าน")
         }
-
+        const datetime = this.getCurrentDate()
         if(state.userType == UserType.STAFF){
-          console.log("staff")
           this.props.history.push(
             "/covid-result", 
             {
-              fullname: `${state.prefix} ${state.firstname} ${state.lastname}`,
+              fullname: "บุคลากรใน รพ.สมเด็จพระปิ่นเกล้า",
               passed: passed, 
-              hasAppointment: hasAppointment
+              hasAppointment: hasAppointment,
+              datetime: datetime
             }
           )
         }
@@ -89,7 +97,8 @@ class TesterPage extends Component {
                   {
                     fullname: `${state.prefix} ${state.firstname} ${state.lastname}`,
                     passed: passed, 
-                    hasAppointment: hasAppointment
+                    hasAppointment: hasAppointment,
+                    datetime: datetime
                   }
               )
           })

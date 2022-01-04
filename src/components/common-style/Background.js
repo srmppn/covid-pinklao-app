@@ -12,14 +12,13 @@ const Backgrounds = {
     backgroundImage: `url(${background2})`,
     backgroundSize: "auto 100%",
     backgroundPosition: "center center",
-    height: "100vh",
-    height: "100%"
+    height: "fit-content"
   },
   background3: {
     backgroundImage: `url(${background3})`,
     backgroundSize: "auto 100%",
     backgroundPosition: "center center",
-    height: "100vh"
+    height: "100vh",
   }
 }
 
