@@ -39,5 +39,12 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      const ua = navigator.userAgent
+      const isInAppLine = ua.match(/Line/);
+      if(isInAppLine){
+        window.location.href = `${window.location.href}?openExternalBrowser=1`
+      }
+    </script>
   </body>
 </html>
