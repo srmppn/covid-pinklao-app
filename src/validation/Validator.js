@@ -4,8 +4,10 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
 
 export const validator = {
     strOnly: yup.string()
+        .trim()
         .required('กรุณากรอกข้อมูล'),
     phone: yup.string()
+        .trim()
         .required('กรุณากรอกข้อมูล')
         .matches(phoneRegExp, 'เบอร์โทรศัพท์ไม่ถูกต้อง')
 }
