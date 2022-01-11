@@ -1,6 +1,6 @@
 const UserType = {
-    GUESS: "guess",
-    STAFF: "staff"
+    GUESS: "บุคลทั่วไป",
+    STAFF: "บุคลากร"
 }
 
 export default UserType

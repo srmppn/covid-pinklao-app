@@ -16,7 +16,8 @@ class UserPage extends Component {
     }
 
     submitHandler = (values) => {
-      this.props.history.push("/covid-test", values)
+      const { state } = this.props.location
+      this.props.history.push("/covid-test", {...values, userType: state.userType})
     }
 
     render() {

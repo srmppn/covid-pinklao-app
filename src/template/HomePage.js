@@ -21,17 +21,7 @@ class HomePage extends Component {
     }
 
     submitHandler = (values) => {
-        switch(values.userType){
-            case UserType.GUESS:
-                this.props.history.push("/user-info", values)
-                break;
-            case UserType.STAFF:
-                this.props.history.push("/covid-test", values)
-                break;
-            default:
-                console.log(values)
-                break;
-        }
+      this.props.history.push("/user-info", values)
     }
 
     render() {

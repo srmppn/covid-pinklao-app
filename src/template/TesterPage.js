@@ -12,7 +12,7 @@ import UserType from './UserType';
 import { TesterSchema } from '../validation/TesterSchema';
 import { date } from 'yup';
 
-const covidTestForm = {
+const covidDiagnoseForm = {
     URL: "https://docs.google.com/forms/u/0/d/e/1FAIpQLScJRlNftFZhJb8qptgvgJwSnNBD-hdCE49DBPI0bW11bMT0sw/formResponse"
 }
 
@@ -61,49 +61,37 @@ class TesterPage extends Component {
     }
 
     submitHandler = (values) => {
+        const datetime = this.getCurrentDate()
         const { state } = this.props.location
         const { passed, hasAppointment } = this.diagnoseResult(values)
         const params = {
+          "entry.222483710": state.userType,
           "entry.1944288684": state.prefix,
           "entry.38573224": state.firstname,
           "entry.1843805990": state.lastname,
           "entry.120237875": state.phone,
           "entry.1618681556": (passed ? "ผ่าน": "ไม่ผ่าน")
         }
-        const datetime = this.getCurrentDate()
-        if(state.userType == UserType.STAFF){
-          this.props.history.push(
-            "/covid-result", 
-            {
-              fullname: "บุคลากรใน รพ.สมเด็จพระปิ่นเกล้า",
-              passed: passed, 
-              hasAppointment: hasAppointment,
-              datetime: datetime
-            }
-          )
-        }
-        else {
-          fetch(covidTestForm.URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(params).toString()
-          })
-          .then(r => {
-              this.props.history.push(
-                  "/covid-result", 
-                  {
-                    fullname: `${state.prefix} ${state.firstname} ${state.lastname}`,
-                    passed: passed, 
-                    hasAppointment: hasAppointment,
-                    datetime: datetime
-                  }
-              )
-          })
-          .catch(e => console.log(e));
-        }
+        fetch(covidDiagnoseForm.URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams(params).toString()
+        })
+        .then(r => {
+            this.props.history.push(
+                "/covid-result", 
+                {
+                  fullname: `${state.prefix} ${state.firstname} ${state.lastname}`,
+                  passed: passed, 
+                  hasAppointment: hasAppointment,
+                  datetime: datetime
+                }
+            )
+        })
+        .catch(e => console.log(e));
     }
 
     setStateResult = (index, result) => {
