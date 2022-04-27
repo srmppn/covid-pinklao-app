@@ -60,6 +60,7 @@ class TesterPage extends Component {
     }
 
     submitHandler = (values) => {
+      console.log("values " + values)
         const datetime = this.getCurrentDate()
         const { state } = this.props.location
         const { passed, hasAppointment } = this.diagnoseResult(values)
@@ -165,7 +166,7 @@ class TesterPage extends Component {
                               }
                             <div style={style.submitContainer}>
                               <div className="mb-2">** โปรดตรวจสอบข้อมูลให้ถูกต้องก่อนกดยืนยัน **</div>
-                              <button className="btn btn-primary btn-block mb-3" onClick={handleSubmit}>ยืนยัน</button>
+                              <button type="submit" className="btn btn-primary btn-block mb-3" onClick={handleSubmit}>ยืนยัน</button>
                             </div>
                         </div>
                     }

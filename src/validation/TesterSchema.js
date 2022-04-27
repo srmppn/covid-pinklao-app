@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { validator } from './Validator';
 
-const range = [...Array(8).keys()];
+const range = [...Array(7).keys()];
 
 export const TesterSchema = Yup.object().shape(
     range.map((_, index) => `covid-test-${index+1}`)
